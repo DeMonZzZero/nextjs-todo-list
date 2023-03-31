@@ -3,8 +3,7 @@ import { useCallback, useState } from "react"
 
 export default function ToDoForm({ addTask }) {
     const [userInput, setUserInput] = useState('');
-    const [todos, setTodos] = useState([]);
-
+    
     const handleSubmit = useCallback((e) => {
         e.preventDefault()
         addTask(userInput)
@@ -21,11 +20,6 @@ export default function ToDoForm({ addTask }) {
         }
     });
 
-    const clearAll = useCallback(() => {
-        setTodos([]);
-        todos.length = 0;
-    })
-
     return (
         <form onSubmit={handleSubmit} >
             <input
@@ -36,7 +30,7 @@ export default function ToDoForm({ addTask }) {
                 placeholder='........'
             />
             <button>Добавить задачу</button>  
-            <button onClick={clearAll}>Очистить все</button>
+            
         </form>
     )
 }

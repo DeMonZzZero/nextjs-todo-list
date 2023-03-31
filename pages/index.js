@@ -28,11 +28,17 @@ export default function App() {
         ])
     });
 
-    
+    const clearAll = useCallback(() => {
+        setTodos([]);
+        todos.length = 0;
+    })
 
     return (
        <>
+
             <ToDoForm addTask={addTask} />
+            
+                <button onClick={clearAll}>Удалить задачи</button>
             <ul>
                 {todos.map((todo) => {
                     return (
@@ -45,6 +51,7 @@ export default function App() {
                 })
                 }
             </ul>
+
             </>
     )
 }
