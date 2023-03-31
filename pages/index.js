@@ -1,20 +1,50 @@
+import { useCallback, useState } from "react"
+import ToDo from "../components/Header"
+import ToDoForm from "../components/TodoForm"
 
+export default function App() {
+    console.count('App')
+    const [todos, setTodos] = useState([]);
 
-import React from "react";
-import ToDoList from "../components/TodoList";
+    const addTask = useCallback((userInput) => {
+        if (userInput) {
+            const newItem = {
+                id: Date.now(),
+                task: userInput,
+                complete: false
+            }
+            setTodos([...todos, newItem])
+        }
+    });
 
+    const removeTask = useCallback((id) => {
+        setTodos([...todos.filter((todo) => todo.id !== id)])
+    });
 
-function App() {
+    const handleToggle = useCallback((id) => {
+        setTodos([
+            ...todos.map((todo) =>
+                todo.id === id ? { ...todo, checked: !todo.checked } : { ...todo })
+        ])
+    });
+
+    
+
     return (
-      <>
-        <h2>ToDo List Example</h2>
-        <ToDoList start={[
-          { id: 0, checked: true, str: 'читать learn JS' },
-          { id: 1, str: 'выполнить ДЗ' }
-        ]}/>
-      </>
-    );
-  }
-
-export default App;
-
+       <>
+            <ToDoForm addTask={addTask} />
+            <ul>
+                {todos.map((todo) => {
+                    return (
+                        <ToDo
+                            todo={todo}
+                            key={todo.id}
+                            toggleTask={handleToggle}
+                            removeTask={removeTask} />
+                    )
+                })
+                }
+            </ul>
+            </>
+    )
+}
